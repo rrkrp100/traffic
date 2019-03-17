@@ -1,20 +1,12 @@
 #!Python3
 
-# def send_mail(reciever, plate, place, owner):
-#     """Sends the charges to the offender using the gmail client for ubuntu"""
-#
-#     import webbrowser, datetime
-#     """from  urllib import quote #used in Python2 : webbrowser.open("mailto:%s?subject=%s&body=%s"%(sender, quote(subject),quote(body)))"""
-#
-#     sender = "rahulpndy7@gmail.com"
-#     date=datetime.datetime.now().strftime("%y-%m-%d at %H-%M")
-#
-#     subject = "Traffic Light violation bill"
-#     body  = "Greetings.\n\nYou have been charged for running a red light on %s around %s\nPlate number : %s, owner of the vehicle %s,is required to come to the police station to pay the fine.\n\n Thank You \n Signed\n Rahul\n " %(date,place,plate,owner)
-#
-#     webbrowser.open("mailto:%s?subject=%s&body=%s"%(sender, subject, body))
+
 
 def send_mail(reciever, plate, place, owner):
+    """
+    Uses SMTP_SSL() for encryption instead of
+     normal smtplib to send mails via gmail
+    """
     import smtplib, ssl, datetime
 
     port = 465  # For SSL
@@ -35,11 +27,13 @@ def send_mail(reciever, plate, place, owner):
     Signed
     Rahul"""%(date,place,plate,owner)
 
-    context = ssl.create_default_context()
-    with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
-        server.login(sender_email, password)
-        server.sendmail(sender_email, receiver_email, message)
-
+    try:
+        context = ssl.create_default_context()
+        with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
+            server.login(sender_email, password)
+            server.sendmail(sender_email, receiver_email, message)
+    except:
+        print("Hmm... Seems your internet connection is down -_-")
 
 
 
