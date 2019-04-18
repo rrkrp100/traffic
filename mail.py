@@ -17,7 +17,11 @@ def send_mail(reciever, plate, place, owner):
     date=datetime.datetime.now().strftime("%y-%m-%d at %H-%M")
 
     message = """\
+    Traffic Police India
+
+
     Subject: Traffic Light violation bill
+
 
     Greetings.
     You have been charged for running a red light on %s around %s
