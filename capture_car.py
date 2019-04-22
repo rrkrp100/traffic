@@ -1,4 +1,4 @@
-def take_pic():
+def take_pic(sigt,strt):
 
     import cv2
     import numpy as np
@@ -18,18 +18,21 @@ def take_pic():
     for i in range(30):
         temp = get_image()
     print('Taking image...')
+    t= round(time.time())
+    nm = str(t)
+
     camera_capture, mask, orig = get_image()
-    cv2.imwrite('first.png',camera_capture)
-    cv2.imwrite('first_mask.png',mask)
-    cv2.imwrite('first_orig.png',orig)
-    cv2.imshow('first_orig.png',orig)
+    cv2.imwrite(nm+'.png',camera_capture)
+    cv2.imwrite(nm+'_mask.png',mask)
+    cv2.imwrite(nm+'_orig.png',orig)
+    #cv2.imshow(nm+'_orig.png',orig)
 
     #time.sleep(5)
 
     del(capture)
     cv2.destroyAllWindows()
 
-    motion.motion()
+    motion.motion(sigt,strt)
     '''
     img=cv2.imread('first.png',cv2.IMREAD_GRAYSCALE)
     threshold = cv2.adaptiveThreshold(img,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY,115,1)
@@ -63,4 +66,4 @@ def take_pic():
     NO USE
     '''
 if __name__ == '__main__':
-    take_pic()
+    take_pic(sigt=15)

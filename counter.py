@@ -20,7 +20,7 @@ def reset_counters(green_light_num):
 
 
 
-def cams(green_light_num):
+def cams(green_light_num,signal_t):
     """Activates the motion detector cameras and resets the greened signal's counter"""
     from threading import Thread
 
@@ -30,10 +30,11 @@ def cams(green_light_num):
         if(m!=(green_light_num+1)%5):
             #Thread(target=start, args=(m,))
             print("Motion cam: ",str(m)," ON")
+            motion.motion(signal_t)
 
 #if __name__== "__main__":
 from random import randint
-
+import motion
 vehicles={1:0,2:0,3:0,4:0}
 ambulance={1:0,2:0,3:0,4:0}
 motion_cams = {0,1,2,3,4}
