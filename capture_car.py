@@ -1,11 +1,11 @@
-def take_pic(sigt,strt):
+def take_pic(sigt,strt,turn,flag):
 
-    import cv2
+    import cv2,time, motion, mail
+    from threading import Thread
     import numpy as np
-    import time
-    import motion
 
-    capture=cv2.VideoCapture(0)#'GenYoutube.net_Cars_moving_on_road_Stock_Footage_-_Free_Download.mp4.mp4')
+    capture=cv2.VideoCapture(0)
+    
     fgmk=cv2.createBackgroundSubtractorMOG2()
 
     def get_image():
@@ -17,14 +17,17 @@ def take_pic(sigt,strt):
 
     for i in range(30):
         temp = get_image()
+        
     print('Taking image...')
     t= round(time.time())
     nm = str(t)
 
+    path="/home/rahul/Programs/images/"
+
     camera_capture, mask, orig = get_image()
-    cv2.imwrite(nm+'.png',camera_capture)
-    cv2.imwrite(nm+'_mask.png',mask)
-    cv2.imwrite(nm+'_orig.png',orig)
+    cv2.imwrite(path+nm+'.png',camera_capture)
+    cv2.imwrite(path+nm+'_mask.png',mask)
+    cv2.imwrite(path+nm+'_orig.png',orig)
     #cv2.imshow(nm+'_orig.png',orig)
 
     #time.sleep(5)
@@ -32,7 +35,10 @@ def take_pic(sigt,strt):
     del(capture)
     cv2.destroyAllWindows()
 
-    motion.motion(sigt,strt)
+    th = Thread(target= mail.find_plate,args=(path+nm+".png"))
+    Thread.start(th)
+
+    motion.motion(sigt=sigt,strt=strt,turn=turn,flag=flag)
     '''
     img=cv2.imread('first.png',cv2.IMREAD_GRAYSCALE)
     threshold = cv2.adaptiveThreshold(img,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY,115,1)

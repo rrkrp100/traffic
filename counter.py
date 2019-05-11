@@ -3,9 +3,11 @@
 def counter():
     """The counter stub, using randint
      to simulate the actual vehicle counter function"""
-    global vehicles, ambulance
-    for i in vehicles:
-         vehicles[i]= randint(1,50)
+    global ambulance
+    #for i in vehicles:
+     #    vehicles[i]= randint(1,50)
+    with open("/home/rahul/Programs/lane1.txt","r") as f:
+            vehicles = int(f.read())
 
     for i in ambulance:
         ambulance[i]= randint(0,3)
@@ -14,8 +16,6 @@ def counter():
 
 def reset_counters(green_light_num):
     """Resets the count of vehicles to zero after every signal change"""
-
-    vehicles[green_light_num]=0
     ambulance[green_light_num]=0
 
 
@@ -30,11 +30,11 @@ def cams(green_light_num,signal_t):
         if(m!=(green_light_num+1)%5):
             #Thread(target=start, args=(m,))
             print("Motion cam: ",str(m)," ON")
-            motion.motion(signal_t)
+            motion.motion(sigt=signal_t,strt=time.time(),turn = green_light_num,flag=0)
 
 #if __name__== "__main__":
 from random import randint
 import motion
-vehicles={1:0,2:0,3:0,4:0}
+#vehicles={1:0,2:0,3:0,4:0}
 ambulance={1:0,2:0,3:0,4:0}
 motion_cams = {0,1,2,3,4}

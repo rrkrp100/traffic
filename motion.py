@@ -1,17 +1,25 @@
 # Pyhton program to implement
 # WebCam Motion Detector
 import time
-def motion(sigt=15,strt = time.time()):
+def count_nxt(turn):
+    import os
+    os.chdir("/home/rahul/Programs/keras-yolo3-master")
+    cmd= "gnome-terminal -e \"python3 /home/rahul/Programs/keras-yolo3-master/yolo_video.py --input traffic"+str(turn+1)+".jpg\""
+    print("\n\n\n",cmd)
+    os.system(cmd)
+    os.chdir("/home/rahul/Programs/traffic")
+
+
+def motion(sigt=25,strt = time.time(),turn=1,flag=0):
 
     # importing OpenCV, time and Pandas library
-    import cv2, capture_car, time
+    import cv2, capture_car, time, os
+    #from threading import Thread
+
     #print("Time alloted:",str(sigt))
 
     # Assigning our static_back to None
     static_back = None
-
-    # List when any moving object appear
-    motion_list = [ None, None ]
 
     # Capturing video
     video = cv2.VideoCapture(0)
@@ -25,6 +33,14 @@ def motion(sigt=15,strt = time.time()):
         # Initializing motion = 0(no motion)
         motion = 0
         print("Time elapsed:",str(round((time.time()-strt),1)),end="\r")
+
+        ### Calling the yolo object detector to count the number of vehicles on the next lane to go green.
+        if round((sigt-(time.time()-strt)),1) <25 and flag==0:
+            flag=1
+            #Thread(target=count_nxt,args=(turn))
+            count_nxt(turn)
+
+
         if check:
 
             # Converting color image to gray_scale image
@@ -69,7 +85,9 @@ def motion(sigt=15,strt = time.time()):
 
                 # Destroying all the windows
                 cv2.destroyAllWindows()
-                capture_car.take_pic(sigt,strt)
+
+                capture_car.take_pic(sigt,strt,turn,flag)
+                
                 break
 
             # Displaying the black and white image in which if
@@ -94,4 +112,4 @@ def motion(sigt=15,strt = time.time()):
 
 if __name__ == '__main__':
     import time
-    motion(sigt=15)
+    motion(sigt=15,strt = time.time(),turn=1)

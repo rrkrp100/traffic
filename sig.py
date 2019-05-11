@@ -16,7 +16,7 @@ def turn_green(light_num,sig_t):
         if(i!=light_num):
             turn_red(i)
 
-    motion.motion(sig_t,time.time())        #Run for "Sig_t" secs, starting now.
+    motion.motion(sigt=sig_t,strt=time.time(),turn=light_num,flag=0)        #Run for "Sig_t" secs, starting now.
 
 def signal(turn):
     """The signal algorithm that starts the
@@ -29,13 +29,14 @@ def signal(turn):
             print(" \n\n Vehicles:%s\nAmbulances: %s\n"%(veh,amb))
             turn= (turn)%4 +1
 
-            sig_time = max(15,min(45,(veh[turn]*3)))        # Alloting time acording to the vehicles standing at this Signal
+            sig_time = max(25,min(55,(veh*5)))        # Alloting time acording to the vehicles standing at this Signal
+
             for i in range(1,5):
                 if(amb[i]!=0 and turn!= i):
-                    sig_time = max(15,(sig_time-5))         #deducting 5 seconds of time for every ambulance waiting on another signal
+                    sig_time = max(25,(sig_time-5))         #deducting 5 seconds of time for every ambulance waiting on another signal
             print("Signal will change in %s secs"%(sig_time))
 
-            turn_green(turn,sig_time-2)                                # Turn the selected light green
+            turn_green(turn,sig_time)                                # Turn the selected light green
 
             #for i in range(1,sig_time-2):
             #    print("Sec:",str(i),end="\r")

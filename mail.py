@@ -1,6 +1,12 @@
 #!Python3
 
+def find_plate(img=None):
+  import plate_segment
 
+  # "img" can be supplied to the license plate extractor to find the llicense plate number from the new file, default is "carz.jpg"
+  plate= plate_segment.license_plate_extractor()
+  
+  
 
 def send_mail(reciever, plate, place, owner):
     """
