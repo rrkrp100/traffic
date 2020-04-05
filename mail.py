@@ -1,14 +1,52 @@
 #!Python3
 
 def find_plate(img=None):
-  import plate_segment
 
-  # "img" can be supplied to the license plate extractor to find the llicense plate number from the new file, default is "carz.jpg"
-  plate= plate_segment.license_plate_extractor()
-  
-  
+  import plate_segment, pandas as pd, shutil, os
+  # "img" is the full path along with the image name can be supplied to the license plate extractor to find the llicense plate number from the new file, default is "carz.jpg"
+  if img== None:
+    plate=123456
+  else:
+    plate= plate_segment.license_plate_extractor()
+    #plate=123456
 
-def send_mail(reciever, plate, place, owner):
+    print("Plate we got was :  "+ plate)
+    """
+  A function call to find the plate number's
+  owner and other details, returning a dictionary 
+  of the details
+
+  """
+  #Make sure the plate number is numeric and not string
+  df = pd.read_csv("/home/rahul/Project/rto.csv")
+  row = df[df['Plate_Num']==plate]
+  
+  if len(row)==1:
+    #if the plate was found in the rto 
+    name = row['Name'].to_string()[1:].strip()
+    email = row['Email'].to_string()[1:].strip()
+    phone = row['Phone'].to_string()[1:].strip()
+    print("Sending Fine Letter to: "+email)
+    #send_mail(reciever=email,plate=plate,owner=name)
+
+    #if default image was not used move it to the caught folder
+    if img!=None:
+      shutil.copy(img+".png", "/home/rahul/Project/caught")
+      os.remove(img+".png")
+      shutil.copy(img+"_orig.png", "/home/rahul/Project/caught")
+      os.remove(img+"_orig.png")
+
+  elif img !=None:
+    #if the plate was not found in the rto csv
+    shutil.copy(img+".png", "/home/rahul/Project/not_found")
+    os.remove(img+".png") 
+    shutil.copy(img+"_orig.png", "/home/rahul/Project/not_found")
+    os.remove(img+"_orig.png")
+
+
+    
+def send_mail(reciever="rrkrp100@gmail.com",plate= "JH-09-6669",place= "Chandrapura",owner="B.Pandey"):
+
     """
     Uses SMTP_SSL() for encryption instead of
      normal smtplib to send mails via gmail
@@ -19,7 +57,7 @@ def send_mail(reciever, plate, place, owner):
     smtp_server = "smtp.gmail.com"
     sender_email = "rahulpndy7@gmail.com"  # Enter your address
     receiver_email = reciever  # Enter receiver address
-    password = "Rahul1pandey"
+    password = "Roxa@&1234"
     date=datetime.datetime.now().strftime("%y-%m-%d at %H-%M")
 
     message = """\
@@ -42,7 +80,8 @@ def send_mail(reciever, plate, place, owner):
         with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
             server.login(sender_email, password)
             server.sendmail(sender_email, receiver_email, message)
-    except:
+    except Exception as ex:
+        print(ex)
         print("Hmm... Seems your internet connection is down -_-")
 
 
