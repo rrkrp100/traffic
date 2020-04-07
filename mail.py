@@ -57,7 +57,7 @@ def send_mail(reciever="rrkrp100@gmail.com",plate= "JH-09-6669",place= "Chandrap
     smtp_server = "smtp.gmail.com"
     sender_email = "rahulpndy7@gmail.com"  # Enter your address
     receiver_email = reciever  # Enter receiver address
-    password = "Roxa@&1234"
+    password = "myPassword"
     date=datetime.datetime.now().strftime("%y-%m-%d at %H-%M")
 
     message = """\
