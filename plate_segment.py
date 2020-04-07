@@ -109,5 +109,6 @@ def segment(license):
 
 if __name__== "__main__":
 
-    #image=cv2.imread("carz.jpg")
-    #segment(license_plate_extractor(image))    
+    image=cv2.imread("carz.jpg")
+    segment(license_plate_extractor(image))
+       

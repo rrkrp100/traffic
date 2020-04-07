@@ -6,9 +6,9 @@ def counter():
     global ambulance
     #for i in vehicles:
      #    vehicles[i]= randint(1,50)
-    with open("/home/rahul/Programs/lane1.txt","r") as f:
-            vehicles = int(f.read())
-
+    #with open("../lane1.txt","r") as f:
+    #        vehicles = int(f.read())
+    vehicles=randint(0,53)
     for i in ambulance:
         ambulance[i]= randint(0,3)
 

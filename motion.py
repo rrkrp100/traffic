@@ -1,19 +1,17 @@
 # Pyhton program to implement
 # WebCam Motion Detector
 import time
+import cv2, capture_car, time, os
+
 def count_nxt(turn):
-    import os
-    os.chdir("/home/rahul/Programs/keras-yolo3-master")
-    cmd= "gnome-terminal -e \"python3 /home/rahul/Programs/keras-yolo3-master/yolo_video.py --input traffic"+str(turn+1)+".jpg\""
-    print("\n\n\n",cmd)
-    os.system(cmd)
-    os.chdir("/home/rahul/Programs/traffic")
+    pass
+
 
 
 def motion(sigt=25,strt = time.time(),turn=1,flag=0):
 
     # importing OpenCV, time and Pandas library
-    import cv2, capture_car, time, os
+    
     #from threading import Thread
 
     #print("Time alloted:",str(sigt))
@@ -30,8 +28,8 @@ def motion(sigt=25,strt = time.time(),turn=1,flag=0):
     while (time.time() -strt ) <= sigt:
         # Reading frame(image) from video
         check, frame = video.read()
-        # Initializing motion = 0(no motion)
-        motion = 0
+        # Initializing motionFound = 0(no motion)
+        motionFound = 0
         print("Time elapsed:",str(round((time.time()-strt),1)),end="\r")
 
         ### Calling the yolo object detector to count the number of vehicles on the next lane to go green.
@@ -76,7 +74,7 @@ def motion(sigt=25,strt = time.time(),turn=1,flag=0):
             for contour in cnts:
                 if cv2.contourArea(contour) < 10000:
                     continue
-                motion = 1
+                motionFound = 1
 
                 print("\n Movement Detected.", end= " ")
 
@@ -86,8 +84,8 @@ def motion(sigt=25,strt = time.time(),turn=1,flag=0):
                 # Destroying all the windows
                 cv2.destroyAllWindows()
 
-                capture_car.take_pic(sigt,strt,turn,flag)
-                
+                #capture_car.take_pic(sigt,strt,turn,flag)
+                motion(sigt,strt,turn,flag)
                 break
 
             # Displaying the black and white image in which if
@@ -101,7 +99,7 @@ def motion(sigt=25,strt = time.time(),turn=1,flag=0):
             # if q entered whole process will stop
             if key == ord('q'):
                 # if something is movingthen it append the end time of movement
-                if motion == 1:
+                if motionFound == 1:
                     time.append(datetime.now())
                 break
 
